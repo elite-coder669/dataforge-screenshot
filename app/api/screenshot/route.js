@@ -52,7 +52,7 @@ export async function POST(req) {
       }
     };
 
-    const fontRes = await fetch('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff');
+const fontRes = await fetch('https://cdn.jsdelivr.net/npm/@fontsource/inter/files/inter-latin-400-normal.woff');
 const fontData = await fontRes.arrayBuffer();
 const svg = await satori(node, {
   width: 1080,
