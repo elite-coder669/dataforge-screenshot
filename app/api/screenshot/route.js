@@ -1,5 +1,6 @@
 import satori from 'satori';
-import { Resvg } from '@resvg/resvg-js';
+import sharp from 'sharp';
+
 
 export const runtime = 'nodejs';
 
@@ -52,8 +53,7 @@ export async function POST(req) {
     };
 
     const svg = await satori(node, { width: 1080, height: 1080, fonts: [] });
-    const resvg = new Resvg(svg, { fitTo: { mode: 'width', value: 1080 } });
-    const png = resvg.render().asPng();
+    const png = await sharp(Buffer.from(svg)).png().toBuffer();
 
     return new Response(png, { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=86400' } });
 
