@@ -631,7 +631,7 @@ function renderGrid({ slide, colors }) {
               type: 'div',
               props: {
                 style: {
-                  flex: '1 1 calc(50% - 8px)',
+                  flex: '1 1 48%',
                   background: item ? colors.surface : 'transparent',
                   border: item ? `1px solid ${colors.border}` : 'none',
                   borderRadius: '8px',
