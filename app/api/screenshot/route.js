@@ -1,7 +1,7 @@
 import satori from 'satori';
 import { Resvg } from '@resvg/resvg-js';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 const BRAND = {
   bg: '#0a0a0a', surface: '#111111', border: '#1e1e1e',
