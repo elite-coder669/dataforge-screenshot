@@ -1,0 +1,81 @@
+export const runtime = 'edge';
+
+// This endpoint takes AI-generated content and returns an array of slide specs
+// n8n calls this → gets slide definitions → calls /api/screenshot for each → uploads to Supabase
+
+export async function POST(req) {
+  try {
+    const { caption, topic, points } = await req.json();
+
+    if (!caption) {
+      return Response.json({ error: 'caption is required' }, { status: 400 });
+    }
+
+    // Build 5-slide carousel structure
+    const slides = [
+      {
+        slide: 1,
+        total: 5,
+        isFirst: true,
+        isLast: false,
+        title: topic || caption.split('.')[0],
+        subtitle: caption.split('.')[1]?.trim() || null,
+        tag: 'DATA QUALITY',
+        body: [],
+      },
+      {
+        slide: 2,
+        total: 5,
+        isFirst: false,
+        isLast: false,
+        title: 'The Problem',
+        subtitle: null,
+        tag: null,
+        body: points?.slice(0, 3) || [
+          'You spend hours debugging training runs',
+          'Model accuracy is stuck at 52%',
+          'Root cause: bad data you never checked',
+        ],
+      },
+      {
+        slide: 3,
+        total: 5,
+        isFirst: false,
+        isLast: false,
+        title: 'What DataForge catches',
+        subtitle: null,
+        tag: 'AUDIT ENGINE',
+        body: [
+          'Class imbalance — before you queue a training job',
+          'Feature-target leakage — correlation > 0.8',
+          'Duplicates, outliers, missing values — ranked by severity',
+        ],
+      },
+      {
+        slide: 4,
+        total: 5,
+        isFirst: false,
+        isLast: false,
+        title: '2 seconds.',
+        subtitle: 'Drop your CSV. Get a quality score 0–100, ranked issues, and exact training impact. No Python. No setup. Runs in your browser.',
+        tag: null,
+        body: [],
+      },
+      {
+        slide: 5,
+        total: 5,
+        isFirst: false,
+        isLast: true,
+        title: 'Try it free.',
+        subtitle: 'Your data never leaves your machine.',
+        tag: 'OPEN BETA',
+        body: [],
+      },
+    ];
+
+    return Response.json({ slides, total: slides.length });
+
+  } catch (err) {
+    return Response.json({ error: err.message }, { status: 500 });
+  }
+}
