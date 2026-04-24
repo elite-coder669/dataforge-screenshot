@@ -52,7 +52,13 @@ export async function POST(req) {
       }
     };
 
-    const svg = await satori(node, { width: 1080, height: 1080, fonts: [] });
+    const fontRes = await fetch('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff');
+const fontData = await fontRes.arrayBuffer();
+const svg = await satori(node, {
+  width: 1080,
+  height: 1080,
+  fonts: [{ name: 'Inter', data: fontData, weight: 400, style: 'normal' }],
+});
     const png = await sharp(Buffer.from(svg)).png().toBuffer();
 
     return new Response(png, { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=86400' } });
